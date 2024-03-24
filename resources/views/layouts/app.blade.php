@@ -38,6 +38,7 @@
             </main>
         </div>
 
+        @livewire('wire-elements-modal')
         @stack('modals')
 
         @livewireScripts

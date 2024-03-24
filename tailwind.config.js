@@ -9,6 +9,8 @@ export default {
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './vendor/wire-elements/modal/resources/views/*.blade.php',
+        './vendor/rappasoft/laravel-livewire-tables/resources/views/**/*.blade.php',
     ],
 
     theme: {
@@ -16,6 +18,13 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+        },
+    },
+
+    options: {
+        safelist: {
+            pattern: /max-w-(sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl)/,
+            variants: ['sm', 'md', 'lg', 'xl', '2xl']
         },
     },
 
