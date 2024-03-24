@@ -7,11 +7,17 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Number;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
+use Illuminate\Database\Eloquent\Builder;
 
 #[On('refreshTable')]
 class Table extends DataTableComponent
 {
-    protected $model = Number::class;
+    // protected $model = Number::class;
+
+    public function builder(): Builder
+    {
+        return Number::where('user_id', auth()->id())->latest();
+    }
 
     public function configure(): void
     {
