@@ -6,7 +6,9 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Number;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
+#[On('refreshTable')]
 class Table extends DataTableComponent
 {
     protected $model = Number::class;
@@ -27,8 +29,8 @@ class Table extends DataTableComponent
                 ->sortable(),
             Column::make("Created at", "created_at")
                 ->sortable(),
-            Column::make("Updated at", "updated_at")
-                ->sortable(),
+            Column::make("Actions", 'id')
+                ->format(fn ($value, $column, $row) => view('livewire.numbers.actions', ['column' => $column])),
         ];
     }
 }

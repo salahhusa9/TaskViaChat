@@ -13,6 +13,7 @@ class Number extends Model
     protected $fillable = [
         'phone_number',
         'status',
+        'user_id'
     ];
 
     protected $appends = [

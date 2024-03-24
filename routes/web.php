@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\WhatsappApi\StartSessionJob;
 use App\Livewire\Numbers\Table;
 use Illuminate\Support\Facades\Route;
 
