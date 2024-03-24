@@ -29,6 +29,11 @@ class Number extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function statuses()
+    {
+        return $this->hasMany(TaskStatus::class);
+    }
+
     public function getStatusDescriptionAttribute()
     {
         return $this->status->getDescriptionForUser();
