@@ -5,18 +5,31 @@ namespace App\Enums;
 // https://waha.devlike.pro/docs/how-to/sessions/#sessionstatus
 enum NumberStatus: string
 {
-    case PANDING = 'Panding';
-    case STOPPED = 'Stopped';
-    case STARTING  = 'Starting';
-    case SCAN_QR_CODE = 'Scan QR Code';
-    case WORKING = 'Working';
-    case FAILED = 'Failed';
+    case PENDING = 'PENDING';
+    case STOPPED = 'STOPPED';
+    case STARTING  = 'STARTING';
+    case SCAN_QR_CODE = 'SCAN_QR_CODE';
+    case WORKING = 'WORKING';
+    case FAILED = 'FAILED';
+
+    public function title()
+    {
+        return match ($this) {
+            self::PENDING => 'Pending',
+            self::STOPPED => 'Stopped',
+            self::STARTING => 'Starting',
+            self::SCAN_QR_CODE => 'Scan QR Code',
+            self::WORKING => 'Working',
+            self::FAILED => 'Failed',
+            default => 'Unknown',
+        };
+    }
 
     // get description
     public function getDescriptionForAdmin(): string
     {
         return match ($this) {
-            self::PANDING => 'session is panding',
+            self::PENDING => 'session is panding',
             self::STOPPED => 'session is stopped',
             self::STARTING => 'session is starting',
             self::SCAN_QR_CODE => 'session is required to scan QR code or login via phone number',
@@ -30,7 +43,7 @@ enum NumberStatus: string
     public function getDescriptionForUser(string $value): string
     {
         return match ($this) {
-            self::PANDING => 'session is panding',
+            self::PENDING => 'session is panding',
             self::STOPPED => 'session is stopped',
             self::STARTING => 'session is starting',
             self::SCAN_QR_CODE => 'session is required to scan QR code or login via phone number',

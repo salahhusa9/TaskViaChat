@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Jobs\Webhooks\Whatsapp\SessionStatusEventHandler;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,18 +15,20 @@ class ProcessWhatsappWebhookJob extends SpatieProcessWebhookJob implements Shoul
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * Create a new job instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Execute the job.
      */
     public function handle(): void
     {
-        //
+        $content = $this->webhookCall->payload;
+
+        switch ($content['event']) {
+            case 'session.status':
+                SessionStatusEventHandler::dispatch($content);
+                break;
+
+            default:
+                # code...
+                break;
+        }
     }
 }

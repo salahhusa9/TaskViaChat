@@ -47,12 +47,11 @@ class StartSessionJob implements ShouldQueue
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
                 ])->post(config('services.whatsapp_api.base_url') . '/sessions/start', [
-                    // 'name' => 'session-' . $number->phone_number,
-                    'name' => 'default',
+                    'name' => config('services.whatsapp_api.test_mode') ? 'default' : 'session-' . $number->id,
                     'config' => [
                         'webhooks' => [
                             [
-                                'url' => url(route('webhook-client-default')),
+                                'url' => config('services.whatsapp_api.webhook_url'),
                                 'events' => [
                                     'session.status',
                                     'message.any',

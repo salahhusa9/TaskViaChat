@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Numbers;
 
+use App\Enums\NumberStatus;
 use App\Jobs\WhatsappApi\StartSessionJob;
 use App\Models\Number;
 use Livewire\Component;
@@ -22,6 +23,7 @@ class Create extends ModalComponent
         $number = Number::create([
             'phone_number' => $this->phone_number,
             'user_id' => auth()->id(),
+            'status' => NumberStatus::PENDING,
         ]);
 
         StartSessionJob::dispatch($number->id);

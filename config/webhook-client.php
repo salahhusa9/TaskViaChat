@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\ProcessWhatsappWebhookJob;
 use App\WebhookClient\DefaultSignatureValidator;
 
 return [
@@ -60,7 +61,7 @@ return [
              *
              * This should be set to a class that extends \Spatie\WebhookClient\Jobs\ProcessWebhookJob.
              */
-            'process_webhook_job' => '',
+            'process_webhook_job' => ProcessWhatsappWebhookJob::class,
         ],
     ],
 

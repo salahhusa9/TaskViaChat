@@ -26,8 +26,9 @@ class Table extends DataTableComponent
             Column::make("Phone number", "phone_number")
                 ->sortable(),
             Column::make("Status", "status")
-                ->sortable(),
-            Column::make("Created at", "created_at")
+                ->sortable()
+                ->format(fn ($value, $column, $row) => view('livewire.numbers.status', ['status' => $value])),
+            Column::make("Updated at", "updated_at")
                 ->sortable(),
             Column::make("Actions", 'id')
                 ->format(fn ($value, $column, $row) => view('livewire.numbers.actions', ['column' => $column])),

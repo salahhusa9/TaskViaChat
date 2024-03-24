@@ -2,6 +2,7 @@
 
 use App\Jobs\WhatsappApi\StartSessionJob;
 use App\Livewire\Numbers\Table;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::webhooks('webhooks/whatsapp');
