@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Numbers\Table;
 use Illuminate\Support\Facades\Route;
 
 Route::webhooks('webhooks/whatsapp');
@@ -16,4 +17,6 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::view('/numbers', 'numbers')->name('numbers');
 });
