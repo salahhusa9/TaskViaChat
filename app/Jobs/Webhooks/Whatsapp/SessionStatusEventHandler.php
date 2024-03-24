@@ -49,7 +49,7 @@ class SessionStatusEventHandler implements ShouldQueue
                 ]);
             }
 
-            if (NumberStatus::tryFrom($status) == NumberStatus::WORKING) {
+            if (NumberStatus::tryFrom($status) == NumberStatus::WORKING) { // this becouse some person won in put phone number in creating
                 $phone_number = explode('@', $this->content['me']['id'])[0];
                 $number->phone_number = $phone_number;
                 $number->save();
