@@ -12,6 +12,11 @@ class ManageStatuses extends ModalComponent
     public $number;
     public Collection $statuses;
 
+    protected $rules = [
+        'statuses.*.name' => 'required|string',
+        'statuses.*.emoji' => 'required|string',
+    ];
+
     public function mount($number_id)
     {
         $this->number = Number::findOrFail($number_id);
