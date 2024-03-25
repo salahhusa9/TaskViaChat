@@ -14,7 +14,7 @@
                         </div>
                         <div class="mt-4 sm:ml-4 sm:mt-0 sm:flex-none">
                             <x-button onclick="Livewire.dispatch('openModal', { component: 'numbers.create' })" loading-on-dispatch-wire-event="openModal">
-                                Create Number
+                                Add Number
                             </x-button>
                         </div>
                     </div>
