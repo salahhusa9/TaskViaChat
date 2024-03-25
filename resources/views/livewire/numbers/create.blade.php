@@ -20,7 +20,7 @@
             Cancel
         </x-secondary-button>
         <x-button class="ml-2" wire:click="store" wire:loading.attr="disabled">
-            Create
+            Add
         </x-button>
     </div>
 </div>
