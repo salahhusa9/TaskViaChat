@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Numbers;
 
+use App\Enums\NumberStatus;
 use App\Models\Number;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,11 @@ class QrCode extends ModalComponent
     {
         $this->number = $number;
 
+        if ($number->status != NumberStatus::SCAN_QR_CODE) {
+            $this->closeModal();
+            $this->dispatch('refreshTable');
+        }
+
         $response = Http::withHeaders([
             'X-Api-Key' => config('whatsapp_api.api_key'),
             'Accept' => 'image/png',
@@ -31,6 +37,15 @@ class QrCode extends ModalComponent
 
         $store = Storage::disk('public')->put('qr-codes/' . $number->id . '/' . $random . '.png', $response->body());
         $this->qrCodeUrl = Storage::url('qr-codes/' . $number->id . '/' . $random . '.png');
+    }
+
+    public function recheck()
+    {
+        if ($this->number->status != NumberStatus::SCAN_QR_CODE) {
+            $this->closeModalWithEvents([
+                'refreshTable'
+            ]);
+        }
     }
 
     public function placeholder()
