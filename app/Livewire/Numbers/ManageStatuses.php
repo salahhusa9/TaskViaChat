@@ -2,14 +2,14 @@
 
 namespace App\Livewire\Numbers;
 
-use App\Models\Number;
+use App\Models\WhatsappSession;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 
 class ManageStatuses extends ModalComponent
 {
-    public $number;
+    public $whatsapp_session;
     public Collection $statuses;
 
     protected $rules = [
@@ -17,11 +17,11 @@ class ManageStatuses extends ModalComponent
         'statuses.*.emoji' => 'required|string',
     ];
 
-    public function mount($number_id)
+    public function mount($whatsapp_session_id)
     {
-        $this->number = Number::findOrFail($number_id);
+        $this->whatsapp_session = WhatsappSession::findOrFail($whatsapp_session_id);
 
-        if ($this->number->user_id !== auth()->id()) {
+        if ($this->whatsapp_session->user_id !== auth()->id()) {
             return abort(403);
         }
 
@@ -30,12 +30,12 @@ class ManageStatuses extends ModalComponent
 
     public function loadStatuses()
     {
-        $this->statuses = collect($this->number->taskStatuses()->get()->toArray());
+        $this->statuses = collect($this->whatsapp_session->taskStatuses()->get()->toArray());
     }
 
     public function addStatus()
     {
-        $this->number->taskStatuses()->create([
+        $this->whatsapp_session->taskStatuses()->create([
             'name' => 'New Status',
             'emoji' => '🤷‍♂️',
         ]);
@@ -47,14 +47,14 @@ class ManageStatuses extends ModalComponent
 
     public function removeStatus($status_id)
     {
-        $this->number->taskStatuses()->findOrFail($status_id)->delete();
+        $this->whatsapp_session->taskStatuses()->findOrFail($status_id)->delete();
         $this->loadStatuses();
     }
 
     public function save()
     {
         foreach ($this->statuses as $status) {
-            $this->number->taskStatuses()->findOrFail($status['id'])->update([
+            $this->whatsapp_session->taskStatuses()->findOrFail($status['id'])->update([
                 'name' => $status['name'],
                 'emoji' => $status['emoji'],
             ]);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Number;
+use App\Models\WhatsappSession;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('emoji')->nullable();
-            $table->foreignIdFor(Number::class);
+            $table->foreignIdFor(WhatsappSession::class);
             $table->timestamps();
         });
     }

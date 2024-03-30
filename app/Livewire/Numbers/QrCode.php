@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Numbers;
 
-use App\Enums\NumberStatus;
-use App\Models\Number;
+use App\Enums\WhatsappSessionStatus;
+use App\Models\WhatsappSession;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -12,36 +12,39 @@ use Illuminate\Support\Str;
 
 class QrCode extends ModalComponent
 {
-    public $number;
+    public $whatsapp_session;
 
     public $qrCodeUrl = '';
 
-    public function mount(Number $number)
+    public function mount($number_id)
     {
-        $this->number = $number;
+        $this->whatsapp_session = $whatsapp_session = WhatsappSession::findOrFail($number_id);
 
-        if ($number->status != NumberStatus::SCAN_QR_CODE) {
+        if ($whatsapp_session->status != WhatsappSessionStatus::SCAN_QR_CODE) {
             $this->closeModal();
             $this->dispatch('refreshTable');
         }
 
         $response = Http::withHeaders([
-            'X-Api-Key' => config('whatsapp_api.api_key'),
+            'X-Api-Key' => $whatsapp_session->whatsappSessionServer->secret,
             'Accept' => 'image/png',
             'Content-Type' => 'image/png',
-        ])->get(config('services.whatsapp_api.base_url') . '/screenshot', [
-            'session' => config('services.whatsapp_api.test_mode') ? 'default' : 'session-' . $number->id
-        ]);
+        ])->get(
+            'https://' . $whatsapp_session->whatsappSessionServer->host . ':' . $whatsapp_session->whatsappSessionServer->port . '/api/screenshot',
+            [
+                'session' => $whatsapp_session->session_name,
+            ]
+        );
 
         $random = Str::random($length = 10);
 
-        $store = Storage::disk('public')->put('qr-codes/' . $number->id . '/' . $random . '.png', $response->body());
-        $this->qrCodeUrl = Storage::url('qr-codes/' . $number->id . '/' . $random . '.png');
+        $store = Storage::disk('public')->put('qr-codes/' . $whatsapp_session->id . '/' . $random . '.png', $response->body());
+        $this->qrCodeUrl = Storage::url('qr-codes/' . $whatsapp_session->id . '/' . $random . '.png');
     }
 
     public function recheck()
     {
-        if ($this->number->status != NumberStatus::SCAN_QR_CODE) {
+        if ($this->whatsapp_session->status != WhatsappSessionStatus::SCAN_QR_CODE) {
             $this->closeModalWithEvents([
                 'refreshTable'
             ]);

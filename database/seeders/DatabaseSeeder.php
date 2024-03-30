@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Enums\WhatsappSessionServerStatus;
+use App\Enums\WhatsappSessionStatus;
 use App\Models\User;
+use App\Models\WhatsappSessionServer;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,11 +16,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // this test server is used for testing purposes
+        WhatsappSessionServer::updateOrCreate(
+            [
+                'name' => 'default'
+            ],
+            [
+                'host' => 'whatsapp-api-2.azurewebsites.net',
+                'port' => '443',
+                'secret' => null,
+                'status' => WhatsappSessionServerStatus::ACTIVE,
+            ]
+        );
     }
 }

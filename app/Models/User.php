@@ -63,8 +63,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function numbers()
+    public function whatsapp_sessions()
     {
-        return $this->hasMany(Number::class);
+        return $this->hasMany(WhatsappSession::class);
     }
 }

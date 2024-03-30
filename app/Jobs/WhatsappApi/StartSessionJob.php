@@ -2,8 +2,8 @@
 
 namespace App\Jobs\WhatsappApi;
 
-use App\Enums\NumberStatus;
-use App\Models\Number;
+use App\Enums\WhatsappSessionStatus;
+use App\Models\WhatsappSession;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -19,7 +19,7 @@ class StartSessionJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public $number_id
+        public $whatsapp_session_id
     ) {
         //
     }
@@ -29,52 +29,61 @@ class StartSessionJob implements ShouldQueue
      */
     public function handle(): void
     {
-        // get number
-        $number = Number::findOrFail($this->number_id);
+        // get whatsapp_session
+        $whatsapp_session = WhatsappSession::with('whatsappSessionServer')->findOrFail($this->whatsapp_session_id);
 
-        // check if number exists
-        if ($number) {
-            // check if number is not working
+        // check if whatsapp_session exists
+        if ($whatsapp_session) {
+            // check if whatsapp_session is not working
             if (
-                $number->status != NumberStatus::WORKING
+                $whatsapp_session->status != WhatsappSessionStatus::WORKING
                 or
-                $number->status != NumberStatus::SCAN_QR_CODE
+                $whatsapp_session->status != WhatsappSessionStatus::SCAN_QR_CODE
                 or
-                $number->status != NumberStatus::STARTING
+                $whatsapp_session->status != WhatsappSessionStatus::STARTING
             ) {
+
+                $session_name = env('WHATSAPP_TEST_MODE') ? 'default' : 'session-' . $whatsapp_session->id;
+
                 $response = Http::withHeaders([
-                    'X-Api-Key' => config('whatsapp_api.api_key'),
+                    'X-Api-Key' => $whatsapp_session->whatsappSessionServer->secret,
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
-                ])->post(config('services.whatsapp_api.base_url') . '/sessions/start', [
-                    'name' => config('services.whatsapp_api.test_mode') ? 'default' : 'session-' . $number->id,
-                    'config' => [
-                        'webhooks' => [
-                            [
-                                'url' => config('services.whatsapp_api.webhook_url'),
-                                'events' => [
-                                    'session.status',
-                                    'message.any',
-                                    'message.reaction',
+                ])->post(
+                    'https://' . $whatsapp_session->whatsappSessionServer->host . ':' . $whatsapp_session->whatsappSessionServer->port . '/api/sessions/start',
+                    [
+                        'name' => $session_name,
+                        'config' => [
+                            'webhooks' => [
+                                [
+                                    'url' => env('WHATSAPP_API_WEBHOOK_URL'),
+                                    'events' => [
+                                        'session.status',
+                                        'message.any',
+                                        'message.reaction',
+                                    ]
                                 ]
                             ]
                         ]
                     ]
-                ]);
+                );
 
                 if ($response->created()) {
                     // update status to starting
-                    $number->update([
-                        'status' => NumberStatus::STARTING,
+                    $whatsapp_session->update([
+                        'session_name' => $session_name,       // name of session in server   ex: defualt
+                        'status' => WhatsappSessionStatus::STARTING,
                     ]);
                 } else {
                     // update status to not working
-                    $number->update([
-                        'status' => NumberStatus::FAILED,
+                    $whatsapp_session->update([
+                        'status' => WhatsappSessionStatus::FAILED,
                     ]);
 
+                    // todo retry job
+
                     info('Failed to start session', [
-                        'number_id' => $number->id,
+                        'whatsapp_session_id' => $whatsapp_session->id,
                         'response' => $response->json(),
                     ]);
                 }

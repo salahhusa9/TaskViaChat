@@ -12,7 +12,7 @@ class TaskStatus extends Model
     protected $fillable = [
         'name',
         'emoji',
-        'number_id',
+        'whatsapp_session_id',
     ];
 
     public function tasks()
@@ -20,8 +20,8 @@ class TaskStatus extends Model
         return $this->hasMany(Task::class);
     }
 
-    public function number()
+    public function whatsapp_session()
     {
-        return $this->belongsTo(Number::class);
+        return $this->belongsTo(WhatsappSession::class);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Enums;
 
 // https://waha.devlike.pro/docs/how-to/sessions/#sessionstatus
-enum NumberStatus: string
+enum WhatsappSessionStatus: string
 {
     case PENDING = 'PENDING';
     case STOPPED = 'STOPPED';
@@ -40,7 +40,7 @@ enum NumberStatus: string
     }
 
     // get description
-    public function getDescriptionForUser(string $value): string
+    public function getDescriptionForUser(): string
     {
         return match ($this) {
             self::PENDING => 'session is panding',

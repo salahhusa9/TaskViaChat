@@ -31,12 +31,12 @@ return [
         ],
     ],
 
-    'whatsapp_api' => [
-        'base_url' => env('WHATSAPP_API_BASE_URL'),
-        'api_key' => env('WHATSAPP_API_KEY', ''),
-        'webhook_url' => env('WHATSAPP_API_WEBHOOK_URL', ''),
-        'test_mode' => env('WHATSAPP_TEST_MODE', false),
-        'default_number' => env('WHATSAPP_DEFAULT_NUMBER', ''),
-    ]
+    // 'whatsapp_api' => [
+    //     'base_url' => env('WHATSAPP_API_BASE_URL'),
+    //     'api_key' => env('WHATSAPP_API_KEY', ''),
+    //     'webhook_url' => env('WHATSAPP_API_WEBHOOK_URL', ''),
+    //     'test_mode' => env('WHATSAPP_TEST_MODE', false),
+    //     'default_number' => env('WHATSAPP_DEFAULT_NUMBER', ''),
+    // ]
 
 ];

@@ -13,7 +13,7 @@ class Task extends Model
         'title',
         'description',
         'status_id',
-        'number_id'
+        'whatsapp_session_id'
     ];
 
     public function status()
@@ -21,8 +21,8 @@ class Task extends Model
         return $this->belongsTo(TaskStatus::class);
     }
 
-    public function number()
+    public function whatsapp_session()
     {
-        return $this->belongsTo(Number::class);
+        return $this->belongsTo(WhatsappSession::class);
     }
 }
