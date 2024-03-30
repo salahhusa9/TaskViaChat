@@ -30,12 +30,12 @@ class ManageStatuses extends ModalComponent
 
     public function loadStatuses()
     {
-        $this->statuses = collect($this->number->statuses()->get()->toArray());
+        $this->statuses = collect($this->number->taskStatuses()->get()->toArray());
     }
 
     public function addStatus()
     {
-        $this->number->statuses()->create([
+        $this->number->taskStatuses()->create([
             'name' => 'New Status',
             'emoji' => '🤷‍♂️',
         ]);
@@ -47,14 +47,14 @@ class ManageStatuses extends ModalComponent
 
     public function removeStatus($status_id)
     {
-        $this->number->statuses()->findOrFail($status_id)->delete();
+        $this->number->taskStatuses()->findOrFail($status_id)->delete();
         $this->loadStatuses();
     }
 
     public function save()
     {
         foreach ($this->statuses as $status) {
-            $this->number->statuses()->findOrFail($status['id'])->update([
+            $this->number->taskStatuses()->findOrFail($status['id'])->update([
                 'name' => $status['name'],
                 'emoji' => $status['emoji'],
             ]);

@@ -29,17 +29,17 @@ class Create extends ModalComponent
         StartSessionJob::dispatch($number->id);
 
         // create default statuses
-        $number->statuses()->create([
+        $number->taskStatuses()->create([
             'name' => 'To do',
             'emoji' => '📝',
         ]);
 
-        $number->statuses()->create([
+        $number->taskStatuses()->create([
             'name' => 'In progress',
             'emoji' => '🚧',
         ]);
 
-        $number->statuses()->create([
+        $number->taskStatuses()->create([
             'name' => 'Done',
             'emoji' => '✅',
         ]);
