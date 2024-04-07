@@ -17,7 +17,7 @@
 {{--  --}}
     <x-heroicon-o-adjustments-horizontal
         title="Manage Statuses"
-        wire:click="$dispatch('openModal', {component: 'numbers.manage-statuses', arguments: {number_id: {{ $column->id }}}})"
+        wire:click="$dispatch('openModal', {component: 'numbers.manage-statuses', arguments: {whatsapp_session_id: {{ $column->id }}}})"
         class="h-6 w-6 shrink-0 text-gray-500 hover:text-indigo-600 cursor-pointer"
     />
 @endif

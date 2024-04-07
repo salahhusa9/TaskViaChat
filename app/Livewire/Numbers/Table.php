@@ -30,8 +30,9 @@ class Table extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
+            Column::make("session push name", "session_push_name")
+                ->sortable(),
             Column::make("Phone number", "phone_number")
-                ->format(fn ($value, $column, $row) => view('livewire.numbers.phone-number', ['column' => $column]))
                 ->sortable(),
             Column::make("Status", "status")
                 ->sortable()

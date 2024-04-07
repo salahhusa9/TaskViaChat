@@ -1,7 +1,7 @@
 <div>
     <div class="px-6 py-4">
         <div class="text-lg font-medium text-gray-900">
-            Manage Statuses of task in {{ $number->phone_number }}
+            Manage Statuses of task in {{ $whatsapp_session->phone_number }}
         </div>
         {{-- souse of whatsapp emojis --}}
 

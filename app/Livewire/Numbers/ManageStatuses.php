@@ -21,7 +21,7 @@ class ManageStatuses extends ModalComponent
     {
         $this->whatsapp_session = WhatsappSession::findOrFail($whatsapp_session_id);
 
-        if ($this->whatsapp_session->user_id !== auth()->id()) {
+        if ($this->whatsapp_session->user_id != auth()->id()) {
             return abort(403);
         }
 
