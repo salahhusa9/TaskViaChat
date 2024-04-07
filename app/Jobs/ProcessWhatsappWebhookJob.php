@@ -27,7 +27,9 @@ class ProcessWhatsappWebhookJob extends SpatieProcessWebhookJob implements Shoul
                 break;
 
             default:
-                # code...
+                info('Event not found: ' . $content['event'], [
+                    'payload' => $content
+                ]);
                 break;
         }
     }
