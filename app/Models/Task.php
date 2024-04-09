@@ -12,8 +12,10 @@ class Task extends Model
     protected $fillable = [
         'title',
         'description',
-        'status_id',
-        'whatsapp_session_id'
+        'task_status_id',
+        'whatsapp_session_id',
+        'whatsapp_message_id',
+        'whatsapp_chat_id',
     ];
 
     public function status()
@@ -24,5 +26,10 @@ class Task extends Model
     public function whatsapp_session()
     {
         return $this->belongsTo(WhatsappSession::class);
+    }
+
+    public function whatsapp_message()
+    {
+        return $this->belongsTo(WhatsappMessage::class);
     }
 }

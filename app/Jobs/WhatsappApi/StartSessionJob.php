@@ -59,7 +59,8 @@ class StartSessionJob implements ShouldQueue
                                     'url' => env('WHATSAPP_API_WEBHOOK_URL'),
                                     'events' => [
                                         'session.status',
-                                        'message.any',
+                                        'message',
+                                        // 'message.any',
                                         'message.reaction',
                                     ]
                                 ]

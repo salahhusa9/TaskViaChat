@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('whatsapp_messages', function (Blueprint $table) {
             $table->id();
-            $table->string('session_id');
-            $table->string('session_name');
+            $table->foreignId('whatsapp_session_id');
 
             $table->string('message_id');
-            $table->timestamp('timestamp');
+            $table->integer('timestamp');
             $table->string('from');
             $table->string('to');
             $table->text('body');
+            $table->text('description');
             $table->boolean('hasMedia');
             $table->timestamps();
         });

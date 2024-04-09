@@ -2,6 +2,8 @@
 
 use App\Models\Number;
 use App\Models\TaskStatus;
+use App\Models\WhatsappMessage;
+use App\Models\WhatsappMessageReaction;
 use App\Models\WhatsappSession;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,7 +21,12 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->foreignIdFor(TaskStatus::class)->nullable();
-            $table->foreignIdFor(WhatsappSession::class);
+
+            $table->foreignIdFor(WhatsappSession::class)->nullable();
+            $table->foreignIdFor(WhatsappMessage::class)->nullable();
+
+            $table->string('whatsapp_chat_id')->nullable(); // 1111111111@c.us
+
             $table->timestamps();
         });
     }

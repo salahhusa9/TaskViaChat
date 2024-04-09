@@ -10,13 +10,13 @@ class WhatsappMessageReaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'whatsapp_message_id',
         'message_id', // native message id from api
         'reaction',
-
-        'from',       // 11111111110@c.us
-        'to',         // 11111111111@c.us
-
-        'session_id', // 11111111111@c.us
-        'session_name', // default
     ];
+
+    public function whatsappMessage()
+    {
+        return $this->belongsTo(WhatsappMessage::class);
+    }
 }

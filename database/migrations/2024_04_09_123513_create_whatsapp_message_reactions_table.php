@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('whatsapp_message_reactions', function (Blueprint $table) {
             $table->id();
+            $table->string('whatsapp_message_id');
             $table->string('message_id');
             $table->string('reaction');
 
-            $table->string('from');      // 11111111111@c.us
-            $table->string('to');       // 11111111111@c.us
-
-            $table->string('session_id');
-            $table->string('session_name');
             $table->timestamps();
         });
     }

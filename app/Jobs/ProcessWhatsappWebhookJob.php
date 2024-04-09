@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Jobs\Webhooks\Whatsapp\MessageEventHandler;
+use App\Jobs\Webhooks\Whatsapp\MessageReactionEventHandler;
 use App\Jobs\Webhooks\Whatsapp\SessionStatusEventHandler;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -24,6 +26,14 @@ class ProcessWhatsappWebhookJob extends SpatieProcessWebhookJob implements Shoul
         switch ($content['event']) {
             case 'session.status':
                 SessionStatusEventHandler::dispatch($content);
+                break;
+
+            case 'message':
+                MessageEventHandler::dispatch($content);
+                break;
+
+            case 'message.reaction':
+                MessageReactionEventHandler::dispatch($content);
                 break;
 
             default:
